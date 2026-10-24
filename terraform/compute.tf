@@ -36,6 +36,9 @@ resource "aws_launch_template" "app" {
   tags = {
     Name = "devops-assessment-launch-template"
   }
+  iam_instance_profile {
+    name = aws_iam_instance_profile.app.name
+  }
 }
 
 # Keep one instance running to limit costs while testing.
