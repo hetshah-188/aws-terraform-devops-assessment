@@ -1,4 +1,4 @@
-\# Beginner's Guide: Build an AWS DevOps Project from Scratch
+﻿# Beginner's Guide: Build an AWS DevOps Project from Scratch
 
 
 
@@ -6,19 +6,19 @@ A practical, step-by-step tutorial for beginners learning AWS, Terraform, and De
 
 
 
-\*\*Project:\*\* AWS Infrastructure Automation with Terraform and GitHub Actions  
+**Project:** AWS Infrastructure Automation with Terraform and GitHub Actions  
 
-\*\*Difficulty:\*\* Beginner to Intermediate  
+**Difficulty:** Beginner to Intermediate  
 
-\*\*Cloud Region Used in This Example:\*\* `ap-south-1` (Mumbai)
-
-
-
-\---
+**Cloud Region Used in This Example:** `ap-south-1` (Mumbai)
 
 
 
-\## 1. What Will You Build?
+---
+
+
+
+## 1. What Will You Build?
 
 
 
@@ -30,37 +30,37 @@ Instead of manually creating every AWS resource through the console, you will us
 
 
 
-\### What the project includes
+### What the project includes
 
 
 
-\- A VPC with public and private subnets.
+- A VPC with public and private subnets.
 
-\- An Internet Gateway and NAT Gateway.
+- An Internet Gateway and NAT Gateway.
 
-\- EC2 instances managed by an Auto Scaling Group.
+- EC2 instances managed by an Auto Scaling Group.
 
-\- An Application Load Balancer (ALB).
+- An Application Load Balancer (ALB).
 
-\- HTTPS using AWS Certificate Manager (ACM).
+- HTTPS using AWS Certificate Manager (ACM).
 
-\- A private Amazon RDS MySQL database.
+- A private Amazon RDS MySQL database.
 
-\- AWS Secrets Manager for database credentials.
+- AWS Secrets Manager for database credentials.
 
-\- S3 buckets for application storage and ALB logs.
+- S3 buckets for application storage and ALB logs.
 
-\- IAM roles and security groups.
+- IAM roles and security groups.
 
-\- GitHub Actions for Terraform formatting and validation.
-
-
-
-\*\*Important:\*\* The demo website in this repository is a static page. The RDS database and Secrets Manager are provisioned as infrastructure but are not connected to the demo page's application logic.
+- GitHub Actions for Terraform formatting and validation.
 
 
 
-\## 2. Understand the Basic Concepts
+**Important:** The demo website in this repository is a static page. The RDS database and Secrets Manager are provisioned as infrastructure but are not connected to the demo page's application logic.
+
+
+
+## 2. Understand the Basic Concepts
 
 
 
@@ -69,38 +69,24 @@ Before starting, understand these services:
 
 
 | Service | Purpose |
-
 |---|---|
-
 | AWS | Cloud platform used to run infrastructure |
-
 | VPC | Private, isolated network in AWS |
-
 | Subnet | A smaller network inside a VPC |
-
 | EC2 | Virtual machine that runs the web server |
-
 | Auto Scaling Group | Maintains the configured number of EC2 instances |
-
 | ALB | Distributes incoming requests to application instances |
-
 | ACM | Manages TLS certificates for HTTPS |
-
 | RDS | Managed relational database |
-
 | Secrets Manager | Stores sensitive values such as database credentials |
-
 | S3 | Object storage |
-
 | IAM | Controls permissions for users and AWS services |
-
 | Terraform | Creates and manages infrastructure through configuration files |
-
 | GitHub Actions | Runs automated workflows when repository events occur |
 
 
 
-\### How the request flows
+### How the request flows
 
 
 
@@ -120,7 +106,7 @@ The private RDS database is a separate component and is not queried by the curre
 
 
 
-\## 3. Prerequisites
+## 3. Prerequisites
 
 
 
@@ -128,19 +114,19 @@ You need:
 
 
 
-\- An AWS account with permission to create the required resources.
+- An AWS account with permission to create the required resources.
 
-\- A GitHub account.
+- A GitHub account.
 
-\- Git installed on your computer.
+- Git installed on your computer.
 
-\- Terraform installed.
+- Terraform installed.
 
-\- AWS CLI installed.
+- AWS CLI installed.
 
-\- A code editor such as Visual Studio Code or Notepad.
+- A code editor such as Visual Studio Code or Notepad.
 
-\- A domain name if you want to configure your own public HTTPS URL.
+- A domain name if you want to configure your own public HTTPS URL.
 
 
 
@@ -148,7 +134,7 @@ Use an IAM identity with only the permissions required for this project. Do not 
 
 
 
-\### Important cost warning
+### Important cost warning
 
 
 
@@ -164,7 +150,7 @@ For initial learning, you can first practise Terraform with small configurations
 
 
 
-\## 4. Install and Verify the Tools
+## 4. Install and Verify the Tools
 
 
 
@@ -188,7 +174,7 @@ If a command is not recognized, install the corresponding tool and reopen CMD.
 
 
 
-\## 5. Configure AWS CLI
+## 5. Configure AWS CLI
 
 
 
@@ -228,7 +214,7 @@ This command should return the AWS account and identity associated with your CLI
 
 
 
-\## 6. Get the Project Code
+## 6. Get the Project Code
 
 
 
@@ -266,7 +252,7 @@ Review the Terraform files before deploying anything.
 
 
 
-\## 7. Understand the Terraform Files
+## 7. Understand the Terraform Files
 
 
 
@@ -275,27 +261,16 @@ The `terraform` directory contains the infrastructure configuration.
 
 
 | File | Responsibility |
-
 |---|---|
-
 | `provider.tf` | Terraform requirements and AWS provider configuration |
-
 | `main.tf` | VPC, subnets, gateways, and route tables |
-
 | `nat.tf` | NAT Gateway and private application routes |
-
-| `security\_groups.tf` | Network access rules |
-
+| `security_groups.tf` | Network access rules |
 | `compute.tf` | EC2 Launch Template and Auto Scaling Group |
-
 | `alb.tf` | Load balancer, listeners, target group, and related settings |
-
 | `acm.tf` | TLS certificate configuration |
-
 | `database.tf` | RDS MySQL and database secret configuration |
-
 | `iam.tf` | EC2 role and permissions |
-
 | `s3.tf` | Application storage and ALB log buckets |
 
 
@@ -304,7 +279,7 @@ Read each file to understand the resources, dependencies, and configured values.
 
 
 
-\## 8. Customize the Configuration
+## 8. Customize the Configuration
 
 
 
@@ -336,7 +311,7 @@ The current configuration uses `devops.life4u.me` and the Mumbai region. A learn
 
 
 
-\## 9. Initialize Terraform
+## 9. Initialize Terraform
 
 
 
@@ -396,7 +371,7 @@ Formatting checks style. Validation checks the configuration's syntax and intern
 
 
 
-\## 10. Review the Deployment Plan
+## 10. Review the Deployment Plan
 
 
 
@@ -420,7 +395,7 @@ Terraform will show which resources it intends to create, change, or destroy.
 
 
 
-\*\*Do not blindly approve a plan.\*\* Review the resource types and estimated operational impact, particularly NAT Gateways, load balancers, databases, and public IP addresses.
+**Do not blindly approve a plan.** Review the resource types and estimated operational impact, particularly NAT Gateways, load balancers, databases, and public IP addresses.
 
 
 
@@ -428,7 +403,7 @@ If Terraform reports an error, fix the underlying issue and run validation and p
 
 
 
-\## 11. Deploy the Infrastructure
+## 11. Deploy the Infrastructure
 
 
 
@@ -460,11 +435,11 @@ Do not repeatedly apply changes without checking the existing Terraform state an
 
 
 
-\## 12. Verify the Deployment
+## 12. Verify the Deployment
 
 
 
-\### A. Check the Terraform state
+### A. Check the Terraform state
 
 
 
@@ -480,7 +455,7 @@ This lists the resources tracked by the current Terraform state. It does not ind
 
 
 
-\### B. Check the website
+### B. Check the website
 
 
 
@@ -492,7 +467,7 @@ If using your own domain, verify that its DNS records point to the correct load 
 
 
 
-\### C. Check the ALB target group
+### C. Check the ALB target group
 
 
 
@@ -520,11 +495,11 @@ If it is unhealthy, inspect the health-check path, target port, security groups,
 
 
 
-\### D. Check the database
+### D. Check the database
 
 
 
-In the RDS Console, verify that the database is available and that \*\*Publicly accessible\*\* is set to \*\*No\*\*.
+In the RDS Console, verify that the database is available and that **Publicly accessible** is set to **No**.
 
 
 
@@ -532,7 +507,7 @@ The database security group should allow MySQL traffic only from the intended ap
 
 
 
-\## 13. Configure Git and GitHub
+## 13. Configure Git and GitHub
 
 
 
@@ -578,7 +553,7 @@ Never commit `.tfstate` files, database passwords, AWS access keys, secret value
 
 
 
-\## 14. Understand the GitHub Actions Workflow
+## 14. Understand the GitHub Actions Workflow
 
 
 
@@ -606,7 +581,7 @@ The current workflow performs:
 
 
 
-This is a \*\*Continuous Integration (CI) validation workflow\*\*. It does not automatically provision AWS infrastructure because it does not run `terraform apply`.
+This is a **Continuous Integration (CI) validation workflow**. It does not automatically provision AWS infrastructure because it does not run `terraform apply`.
 
 
 
@@ -618,11 +593,11 @@ Do not add long-lived AWS credentials directly to workflow files.
 
 
 
-\## 15. Troubleshooting Common Problems
+## 15. Troubleshooting Common Problems
 
 
 
-\### Terraform command is not recognized
+### Terraform command is not recognized
 
 
 
@@ -630,7 +605,7 @@ Install Terraform and ensure its installation directory is included in the Windo
 
 
 
-\### AWS credentials or permissions error
+### AWS credentials or permissions error
 
 
 
@@ -650,7 +625,7 @@ If identity resolution fails, check your CLI authentication. If an AWS action is
 
 
 
-\### ACM certificate remains pending validation
+### ACM certificate remains pending validation
 
 
 
@@ -658,7 +633,7 @@ Confirm that the DNS validation CNAME record matches the values supplied by ACM 
 
 
 
-\### ALB target is unhealthy
+### ALB target is unhealthy
 
 
 
@@ -666,7 +641,7 @@ Check that the EC2 instance is running, Nginx is serving the expected page, the 
 
 
 
-\### Website cannot be reached
+### Website cannot be reached
 
 
 
@@ -674,7 +649,7 @@ Check the DNS record, ALB listeners, certificate status, target health, route ta
 
 
 
-\### Terraform reports an existing resource
+### Terraform reports an existing resource
 
 
 
@@ -682,7 +657,7 @@ Check the AWS Console and Terraform state before making changes. Never import, r
 
 
 
-\## 16. Clean Up the Resources
+## 16. Clean Up the Resources
 
 
 
@@ -726,7 +701,7 @@ After cleanup, inspect the AWS Console for leftover resources and continue monit
 
 
 
-\## 17. Suggested Learning Improvements
+## 17. Suggested Learning Improvements
 
 
 
@@ -734,73 +709,73 @@ After completing the project, try these enhancements:
 
 
 
-\- Add CloudWatch monitoring and alarms.
+- Add CloudWatch monitoring and alarms.
 
-\- Add a remote Terraform backend with encryption and state locking.
+- Add a remote Terraform backend with encryption and state locking.
 
-\- Implement secure GitHub Actions deployment with OIDC.
+- Implement secure GitHub Actions deployment with OIDC.
 
-\- Connect a real application to RDS using Secrets Manager.
+- Connect a real application to RDS using Secrets Manager.
 
-\- Add automated application tests.
+- Add automated application tests.
 
-\- Explore multi-AZ resilience and the trade-offs of multiple NAT Gateways.
+- Explore multi-AZ resilience and the trade-offs of multiple NAT Gateways.
 
-\- Improve cost monitoring and cleanup automation.
-
-
-
-\## 18. Interview Questions for Beginners
+- Improve cost monitoring and cleanup automation.
 
 
 
-\*\*Why use Terraform?\*\*  
+## 18. Interview Questions for Beginners
+
+
+
+**Why use Terraform?**  
 
 Terraform allows infrastructure to be defined as code, reviewed, version-controlled, and recreated consistently.
 
 
 
-\*\*Why use private subnets for EC2?\*\*  
+**Why use private subnets for EC2?**  
 
 Private application instances are not directly exposed to inbound internet traffic. Users access them through the ALB.
 
 
 
-\*\*Why use an ALB?\*\*  
+**Why use an ALB?**  
 
 It distributes incoming requests to registered targets and supports health checks and HTTPS termination.
 
 
 
-\*\*What does an Auto Scaling Group do?\*\*  
+**What does an Auto Scaling Group do?**  
 
 It maintains the configured number of EC2 instances and can replace unhealthy instances according to its configuration.
 
 
 
-\*\*Why is RDS private?\*\*  
+**Why is RDS private?**  
 
 A private database reduces direct exposure and allows access to be restricted to trusted application resources.
 
 
 
-\*\*What is the difference between CI and CD?\*\*  
+**What is the difference between CI and CD?**  
 
 CI checks and validates changes. CD automates delivery or deployment. This repository's current workflow performs CI validation; infrastructure provisioning is separate.
 
 
 
-\*\*What is Terraform state?\*\*  
+**What is Terraform state?**  
 
 It records Terraform's mapping between configuration and managed resources. It may contain sensitive information and must be protected.
 
 
 
-\---
+---
 
 
 
-\## Final Advice
+## Final Advice
 
 
 
@@ -809,6 +784,7 @@ Build the project in stages, understand each resource, review every Terraform pl
 
 
 The purpose is not simply to make the website work. It is to understand how networking, compute, storage, security, automation, and cost management fit together in a real cloud environment.
+
 
 
 
