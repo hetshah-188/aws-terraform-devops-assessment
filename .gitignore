@@ -7,3 +7,6 @@ crash.log
 *.tfvars
 !*.tfvars.example
 .env
+terraform/tfplan
+terraform/test.txt
+terraform/downloaded.txt
