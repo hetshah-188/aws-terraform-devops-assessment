@@ -1,52 +1,45 @@
-# AWS DevOps Assessment — Terraform Infrastructure & CI/CD
+# AWS DevOps Infrastructure Assessment
 
 ## Project Overview
 
-This project demonstrates Infrastructure as Code (IaC) using Terraform to provision a secure, scalable AWS environment. GitHub Actions automatically checks Terraform formatting and configuration validity whenever relevant changes are pushed or pull requests are opened.
+This project demonstrates AWS infrastructure provisioning using Terraform, with GitHub Actions for continuous integration and validation. The application is hosted on private EC2 instances behind an internet-facing Application Load Balancer with HTTPS enabled.
 
-**Project status:** CI pipeline verified. AWS infrastructure deployment and end-to-end application testing are pending.
+**Live Application:** https://devops.life4u.me  
+**AWS Region:** Asia Pacific (Mumbai) — `ap-south-1`
 
 ## Technology Stack
 
-- **Cloud:** Amazon Web Services (AWS)
+- **Cloud:** AWS
 - **Infrastructure as Code:** Terraform
-- **CI/CD:** GitHub Actions
-- **Compute:** Amazon EC2, Launch Template, Auto Scaling Group
-- **Networking:** Amazon VPC, public/private subnets, Internet Gateway, NAT Gateway
-- **Load balancing:** Application Load Balancer (ALB)
+- **CI:** GitHub Actions
+- **Networking:** VPC, public and private subnets, Internet Gateway, NAT Gateway, route tables
+- **Compute:** EC2 Launch Template and Auto Scaling Group
+- **Load Balancing:** Application Load Balancer
 - **TLS:** AWS Certificate Manager (ACM)
 - **Database:** Amazon RDS for MySQL
 - **Secrets:** AWS Secrets Manager
-- **Storage and logs:** Amazon S3
-- **Access control:** AWS IAM and security groups
+- **Storage and Logs:** Amazon S3
+- **Web Server:** Nginx
 
 ## Architecture
 
-1. A custom VPC contains public, private application, and private database subnets across two Availability Zones.
-2. The Internet Gateway provides internet connectivity to public resources.
-3. The Application Load Balancer receives HTTP/HTTPS traffic in the public subnets.
-4. HTTP requests are redirected to HTTPS using an ACM certificate.
-5. The Auto Scaling Group manages EC2 application instances in private subnets.
-6. The private MySQL database is hosted on Amazon RDS.
-7. Secrets Manager stores database credentials, with an IAM role granting the EC2 instances permission to read the designated secret.
-8. Amazon S3 provides private application storage and a destination for ALB access logs.
-9. GitHub Actions checks Terraform formatting, initialization, and configuration validity.
+1. Users access the application through the public Application Load Balancer.
+2. HTTP traffic is redirected to HTTPS using an ACM certificate.
+3. The ALB forwards HTTP traffic to Nginx on EC2 instances in private application subnets.
+4. An Auto Scaling Group manages the EC2 instances and uses load balancer health checks.
+5. RDS MySQL is deployed in private database subnets and is not publicly accessible.
+6. Database credentials are stored in AWS Secrets Manager.
+7. S3 provides application storage and a destination for ALB access logs.
+8. Terraform defines the infrastructure, while GitHub Actions checks formatting and validates the Terraform configuration.
 
-## CI Pipeline
+## Security Features
 
-**Code change → GitHub push or pull request → GitHub Actions → Terraform format check → Terraform initialization → Terraform validation**
-
-The current workflow validates configuration only. It does not apply Terraform or deploy AWS infrastructure.
-
-## Security Measures
-
-- Private application and database subnets.
-- HTTPS listener with ACM certificate.
-- HTTP-to-HTTPS redirection.
-- Security groups restrict database access to the application tier.
-- S3 public access is blocked and server-side encryption is enabled.
-- EC2 IAM permissions follow the least-privilege principle.
-- Terraform state and `.tfvars` files are excluded from Git.
+- Separate public, application-private, and database-private subnets.
+- Security groups restrict application traffic to the ALB and database traffic to the application security group.
+- HTTPS termination at the ALB.
+- Private RDS deployment with storage encryption enabled.
+- S3 public access blocks and server-side encryption.
+- An EC2 IAM role with scoped permission to retrieve the database secret.
 
 ## Repository Structure
 
@@ -58,42 +51,55 @@ aws-terraform-devops-assessment/
 ├── app/
 │   └── index.html
 ├── docs/
+│   └── architecture.md
 ├── terraform/
-│   ├── main.tf
 │   ├── provider.tf
-│   ├── security_groups.tf
+│   ├── main.tf
 │   ├── nat.tf
+│   ├── security_groups.tf
 │   ├── compute.tf
 │   ├── alb.tf
-│   ├── database.tf
 │   ├── acm.tf
+│   ├── database.tf
 │   ├── iam.tf
 │   └── s3.tf
 ├── .gitignore
 └── README.md
 ```
 
-## Deployment and Verification
+## CI Workflow
 
-Before considering this project complete:
+The GitHub Actions workflow runs on relevant pushes and pull requests to the main branch, and can also be triggered manually.
 
-- Review the final Terraform plan.
-- Provision the infrastructure only after reviewing expected AWS charges.
-- Configure DNS for `devops.life4u.me` to point to the ALB without modifying unrelated root-domain records.
-- Verify HTTPS, ALB target health, application access, database networking, and S3 access logs.
-- Record deployment outputs and add screenshots of successful tests.
+It performs:
+- Terraform formatting checks.
+- Terraform initialization without configuring a remote backend.
+- Terraform configuration validation.
 
-**Application URL:** `https://devops.life4u.me` — pending deployment and verification.
+**Note:** This workflow validates Terraform; it does not automatically apply or deploy infrastructure. Infrastructure provisioning is performed separately using Terraform.
+
+## Deployment Verification
+
+The following checks were completed in AWS:
+
+- Application URL loads over HTTPS.
+- HTTP redirects to HTTPS.
+- ALB target group reports one healthy target.
+- Auto Scaling Group is at its desired capacity.
+- RDS MySQL is available and not publicly accessible.
+- S3 storage and ALB log buckets exist.
+- GitHub Actions CI checks completed successfully.
+
+## Limitations and Future Improvements
+
+- Connect the demo application to RDS if database functionality is required.
+- Implement an automated deployment workflow with securely configured AWS authentication, such as GitHub Actions OIDC.
+- Consider a remote Terraform backend with state locking and encryption.
+- Consider multi-AZ NAT Gateway deployment for improved availability.
+- Add application monitoring, alerting, and automated tests.
 
 ## Cost and Cleanup
 
-Resources such as NAT Gateway, ALB, EC2, RDS, and S3 may incur charges. Review AWS pricing and your account's Free Tier or credit eligibility before deployment. After the assessment, remove resources only after confirming that any required data has been backed up. Terraform state contains sensitive infrastructure details and must not be committed to Git.
+AWS resources such as NAT Gateways, load balancers, RDS instances, and public IPv4 addresses may incur charges.
 
-## Learning Outcomes
-
-- Defining AWS infrastructure using Terraform.
-- Configuring public and private networking.
-- Implementing security groups and IAM roles.
-- Setting up ALB, ACM, Auto Scaling, RDS, and S3.
-- Automating Terraform checks with GitHub Actions.
-- Documenting infrastructure architecture and validation steps.
+After assessment and evidence collection, review the Terraform state and remove resources that are no longer required. Never commit Terraform state files, database passwords, AWS credentials, or other secrets to Git.
