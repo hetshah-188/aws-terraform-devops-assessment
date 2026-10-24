@@ -6,6 +6,8 @@ resource "aws_lb" "app" {
   security_groups    = [aws_security_group.alb.id]
   subnets            = aws_subnet.public[*].id
 
+  depends_on = [aws_s3_bucket_policy.alb_logs]
+
   enable_deletion_protection = false
 
   tags = {
@@ -72,4 +74,14 @@ resource "aws_lb_listener" "https" {
 resource "aws_autoscaling_attachment" "app" {
   autoscaling_group_name = aws_autoscaling_group.app.name
   lb_target_group_arn    = aws_lb_target_group.app.arn
+}
+
+output "alb_dns_name" {
+  description = "AWS Application Load Balancer DNS name"
+  value       = aws_lb.app.dns_name
+}
+
+output "application_url" {
+  description = "Intended HTTPS application URL"
+  value       = "https://devops.life4u.me"
 }
